@@ -53,13 +53,13 @@ def init_routes(app):
             """
             resume_keywords = extract_keywords(extracted_text)
             job_keywords = extract_keywords(sample_job_description)
-            common_keywords = resume_keywords.intersection(job_keywords)
-            match_score = (len(common_keywords) / len(job_keywords)) * 100 if job_keywords else 0
+            common_keywords = resume_keywords.intersection(job_keywords) #keyword matching
+            match_score = (len(common_keywords) / len(job_keywords)) * 100 if job_keywords else 0 #match score formula
 
             result = {
                 'filename': filename,
                 'match_score': f"{match_score:.2f}%",
-                'keywords': ', '.join(common_keywords)
+                'keywords': ', '.join(common_keywords) #return the uotcome with match score and keywords
             }
 
             uploaded_resumes.append(result)
@@ -168,16 +168,16 @@ def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:
         reader = PyPDF2.PdfReader(f)
         for page in reader.pages:
-            page_text = page.extract_text()
+            page_text = page.extract_text() #read text from pdf
             if page_text:
                 text += page_text
     return text
 
 
 def extract_keywords(text):
-    doc = nlp(text.lower())
+    doc = nlp(text.lower()) #converts whole text to lowercase(tokenisation)
     keywords = set()
     for token in doc:
-        if token.is_alpha and not token.is_stop:
-            keywords.add(token.lemma_)  # Lemmatize to normalize
+        if token.is_alpha and not token.is_stop: #removes common words like in, the 
+            keywords.add(token.lemma_)  # converts each word to its normal form (developing -> develop) for accuracy
     return keywords
