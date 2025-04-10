@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef2f5;
+      padding: 40px;
+    }
+    h2 {
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    .logout {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .logout a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="logout">
+    <a href="{{ url_for('admin_logout') }}">🚪 Logout</a>
+  </div>
+  <h2>📂 Uploaded Resumes</h2>
+  
+  <table>
+    <tr>
+      <th>Filename</th>
+      <th>Match Score</th>
+      <th>Keywords</th>
+      <th>Download</th> <!-- New Column -->
+    </tr>
+    {% for resume in resumes %}
+    <tr>
+      <td>{{ resume.filename }}</td>
+      <td>{{ resume.match_score }}</td>
+      <td>{{ resume.keywords }}</td>
+      <td><a href="{{ url_for('download_resume', filename=resume.filename) }}" download>⬇️ Download</a></td> <!-- Button -->
+    </tr>
+    {% endfor %}
+  </table>
+  
+</body>
+</html>
